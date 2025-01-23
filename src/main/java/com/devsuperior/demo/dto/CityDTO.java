@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 public class CityDTO {
 	
 	private Long id;
-	@NotBlank
+	@NotBlank(message = "Nome deve ser válido")
 	private String name;
 	
 	public CityDTO() {

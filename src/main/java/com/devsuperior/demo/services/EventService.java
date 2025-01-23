@@ -5,11 +5,14 @@ import com.devsuperior.demo.entities.City;
 import com.devsuperior.demo.entities.Event;
 import com.devsuperior.demo.repositories.CityRepository;
 import com.devsuperior.demo.repositories.EventRepository;
+import com.devsuperior.demo.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 public class EventService {
@@ -37,8 +40,9 @@ public class EventService {
         event.setName(dto.getName());
         event.setDate(dto.getDate());
         event.setUrl(dto.getUrl());
-        City eventCity = cityRepository.findById(dto.getCityId()).get();
-        event.setCity(eventCity);
+        Optional<City> eventCity = cityRepository.findById(dto.getCityId());
+        if (eventCity.isEmpty()) throw new ResourceNotFoundException("Resource not found");
+        event.setCity(eventCity.get());
         return event;
 
     }
