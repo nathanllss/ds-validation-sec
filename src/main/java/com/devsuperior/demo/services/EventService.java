@@ -5,7 +5,6 @@ import com.devsuperior.demo.entities.City;
 import com.devsuperior.demo.entities.Event;
 import com.devsuperior.demo.repositories.CityRepository;
 import com.devsuperior.demo.repositories.EventRepository;
-import com.devsuperior.demo.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,7 +40,6 @@ public class EventService {
         event.setDate(dto.getDate());
         event.setUrl(dto.getUrl());
         Optional<City> eventCity = cityRepository.findById(dto.getCityId());
-        if (eventCity.isEmpty()) throw new ResourceNotFoundException("Resource not found");
         event.setCity(eventCity.get());
         return event;
 
